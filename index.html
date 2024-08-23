@@ -38,9 +38,15 @@
             transition: background-color 0.3s ease, transform 0.3s ease;
         }
 
-        .btn-custom:hover {
+        .btn-custom:hover:not(:disabled) {
             background-color: #0056b3;
             transform: scale(1.05);
+        }
+
+        .btn-custom:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .audio-container {
@@ -129,6 +135,8 @@
         const resultDiv = document.getElementById('result');
 
         startButton.addEventListener('click', async () => {
+            if (startButton.disabled) return;
+
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                 mediaRecorder = new MediaRecorder(stream);
@@ -158,6 +166,8 @@
         });
 
         stopButton.addEventListener('click', () => {
+            if (stopButton.disabled) return;
+
             if (mediaRecorder) {
                 mediaRecorder.stop();
             }
@@ -166,6 +176,8 @@
         });
 
         identifyButton.addEventListener('click', async () => {
+            if (identifyButton.disabled) return;
+
             if (!audioBlob) {
                 alert('Please record an audio first.');
                 return;
